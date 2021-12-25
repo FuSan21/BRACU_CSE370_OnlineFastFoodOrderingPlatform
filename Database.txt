@@ -1,0 +1,92 @@
+CREATE TABLE Customer
+(
+  firstName VARCHAR(30) NOT NULL,
+  lastName VARCHAR(30) NOT NULL,
+  customer_id INT NOT NULL,
+  email VARCHAR(30) NOT NULL,
+  phn_no INT NOT NULL,
+  passSalt VARCHAR(30) NOT NULL,
+  passHash VARCHAR(30) NOT NULL,
+  PRIMARY KEY (customer_id),
+  UNIQUE (email),
+  UNIQUE (phn_no)
+);
+
+CREATE TABLE accInfo
+(
+  customer_level INT NOT NULL,
+  customer_id INT NOT NULL,
+  PRIMARY KEY (customer_level, customer_id),
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE Seller
+(
+  name VARCHAR(30) NOT NULL,
+  seller_id INT NOT NULL,
+  PRIMARY KEY (seller_id)
+);
+
+CREATE TABLE Cupons
+(
+  amount FLOAT NOT NULL,
+  min_spend FLOAT,
+  cupon_id INT NOT NULL,
+  seller_id INT NOT NULL,
+  customer_id INT,
+  PRIMARY KEY (cupon_id),
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+);
+
+CREATE TABLE accInfo_favorites
+(
+  favorites INT NOT NULL,
+  customer_level INT NOT NULL,
+  customer_id INT NOT NULL,
+  PRIMARY KEY (favorites, customer_level, customer_id),
+  FOREIGN KEY (customer_level, customer_id) REFERENCES accInfo(customer_level, customer_id)
+);
+
+CREATE TABLE Product
+(
+  price FLOAT NOT NULL,
+  product_id INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
+  image VARCHAR(100) NOT NULL,
+  category VARCHAR(30) NOT NULL,
+  seller_id INT NOT NULL,
+  PRIMARY KEY (product_id),
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
+);
+
+CREATE TABLE Addon
+(
+  name INT NOT NULL,
+  price INT NOT NULL,
+  product_id INT NOT NULL,
+  seller_id INT NOT NULL,
+  PRIMARY KEY (name, product_id),
+  FOREIGN KEY (product_id) REFERENCES Product(product_id),
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
+);
+
+CREATE TABLE Orders
+(
+  order_id INT NOT NULL,
+  date DATE NOT NULL,
+  time time NOT NULL,
+  given_rating INT,
+  status VARCHAR(10) NOT NULL,
+  customer_id INT NOT NULL,
+  seller_id INT NOT NULL,
+  name INT NOT NULL,
+  product_id2 INT,
+  product_id INT NOT NULL,
+  PRIMARY KEY (customer_id, seller_id, name, product_id2, product_id),
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
+  FOREIGN KEY (name, product_id2) REFERENCES Addon(name, product_id),
+  FOREIGN KEY (product_id) REFERENCES Product(product_id),
+  UNIQUE (order_id)
+);
