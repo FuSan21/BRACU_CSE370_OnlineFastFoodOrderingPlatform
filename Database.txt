@@ -2,9 +2,9 @@ CREATE TABLE Customer
 (
   firstName VARCHAR(30) NOT NULL,
   lastName VARCHAR(30) NOT NULL,
-  customer_id INT NOT NULL,
+  customer_id INT NOT NULL AUTO_INCREMENT,
   email VARCHAR(30) NOT NULL,
-  phn_no INT NOT NULL,
+  phn_no INT,
   passSalt VARCHAR(30) NOT NULL,
   passHash VARCHAR(30) NOT NULL,
   PRIMARY KEY (customer_id),
@@ -14,10 +14,11 @@ CREATE TABLE Customer
 
 CREATE TABLE accInfo
 (
-  customer_level INT NOT NULL,
+  customer_level TINYINT DEFAULT 1,
   customer_id INT NOT NULL,
   PRIMARY KEY (customer_level, customer_id),
-  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  CHECK (customer_level<=5)
 );
 
 CREATE TABLE Seller
@@ -35,58 +36,101 @@ CREATE TABLE Cupons
   seller_id INT NOT NULL,
   customer_id INT,
   PRIMARY KEY (cupon_id),
-  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
-  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id)
-);
-
-CREATE TABLE accInfo_favorites
-(
-  favorites INT NOT NULL,
-  customer_level INT NOT NULL,
-  customer_id INT NOT NULL,
-  PRIMARY KEY (favorites, customer_level, customer_id),
-  FOREIGN KEY (customer_level, customer_id) REFERENCES accInfo(customer_level, customer_id)
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 CREATE TABLE Product
 (
   price FLOAT NOT NULL,
-  product_id INT NOT NULL,
+  product_id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(30) NOT NULL,
   image VARCHAR(100) NOT NULL,
   category VARCHAR(30) NOT NULL,
   seller_id INT NOT NULL,
   PRIMARY KEY (product_id),
-  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE CASCADE
+);
+
+CREATE TABLE accInfo_favorites
+(
+  favorites INT NOT NULL,
+  customer_level TINYINT DEFAULT 1,
+  customer_id INT NOT NULL,
+  PRIMARY KEY (favorites, customer_level, customer_id),
+  FOREIGN KEY (customer_level, customer_id) REFERENCES accInfo(customer_level, customer_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (favorites) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  UNIQUE (favorites)
 );
 
 CREATE TABLE Addon
 (
-  name INT NOT NULL,
+  name VARCHAR(30) NOT NULL,
   price INT NOT NULL,
   product_id INT NOT NULL,
   seller_id INT NOT NULL,
   PRIMARY KEY (name, product_id),
-  FOREIGN KEY (product_id) REFERENCES Product(product_id),
-  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id)
+  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE Orders
 (
-  order_id INT NOT NULL,
+  order_id INT NOT NULL AUTO_INCREMENT,
   date DATE NOT NULL,
   time time NOT NULL,
   given_rating INT,
   status VARCHAR(10) NOT NULL,
-  customer_id INT NOT NULL,
-  seller_id INT NOT NULL,
-  name INT NOT NULL,
+  customer_id INT,
+  seller_id INT,
+  name VARCHAR(30),
   product_id2 INT,
-  product_id INT NOT NULL,
-  PRIMARY KEY (customer_id, seller_id, name, product_id2, product_id),
-  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
-  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id),
-  FOREIGN KEY (name, product_id2) REFERENCES Addon(name, product_id),
-  FOREIGN KEY (product_id) REFERENCES Product(product_id),
-  UNIQUE (order_id)
+  product_id INT,
+  order_cost FLOAT NOT NULL,
+  PRIMARY KEY (order_id),
+  FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE SET NULL,
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE SET NULL,
+  FOREIGN KEY (name, product_id2) REFERENCES Addon(name, product_id) ON UPDATE CASCADE ON DELETE SET NULL,
+  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE SET NULL
 );
+
+
+
+INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passSalt`, `passHash`) VALUES
+('Test', 'Test', 'Test@Test.com', 15748445, 'gfdgd45dfgdf5tdtgfgf', 'sdfgs5trd5dfgdf'),
+('Testwsd', 'Testdsf', 'Tesdfst@Test.com', 15345445, 'afdgad5dfgdf5tdtgfgf', 'adfgssd5dfgdf'),
+('safdsaf', 'safsaf', 'asfsa@sdf.sdf', 153454545, 'asfgdhgfhfghjfyudrt', 'sfdyrttqjkhkjfgdf');
+
+INSERT INTO `accinfo` (`customer_level`, `customer_id`) VALUES
+(1, 1),
+(1, 2),
+(2, 3);
+
+INSERT INTO `seller` (`name`, `seller_id`) VALUES
+('BRACU Fast Foods', 1);
+
+INSERT INTO `cupons` (`amount`, `min_spend`, `cupon_id`, `seller_id`, `customer_id`) VALUES
+(700, 100, 8942045, 1, 1);
+
+INSERT INTO `product` (`price`, `name`, `image`, `category`, `seller_id`) VALUES
+(279, '2 pcs Peri Peri Grilled Chicke', 'https://kfcbd.com/storage/products/vQs7vhbBKFqI75GQ1xj4N9Pi3.jpg', 'Chicken', 1),
+(549, '4 pcs Peri Peri Grilled Chicke', 'https://kfcbd.com/storage/products/qWl58hZ82FplIzSgBixeSbW55.jpg', 'Chicken', 1),
+(649, '5pc Leg Piece Bucket Meal', 'https://kfcbd.com/storage/products/JFGJxoFTj2vBoTlqxh83wRf0s.jpg', 'Chicken', 1),
+(899, '10pc Leg Piece Bucket Meal', 'https://kfcbd.com/storage/products/3Sjbfk9ADbfxx3QUz9Z6o7gGH.jpg', 'Chicken', 1);
+
+INSERT INTO `accinfo_favorites` (`favorites`, `customer_level`, `customer_id`) VALUES
+(1, 1, 1),
+(4, 1, 1);
+
+INSERT INTO `addon` (`name`, `price`, `product_id`, `seller_id`) VALUES
+('Extra Mayonnaise', 15, 1, 1),
+('Extra Mayonnaise', 15, 2, 1),
+('Extra Mayonnaise', 15, 3, 1),
+('Extra Mayonnaise', 15, 4, 1),
+('Extra Sauce', 10, 1, 1),
+('Extra Sauce', 10, 2, 1),
+('Extra Sauce', 10, 3, 1),
+('Extra Sauce', 10, 4, 1);
+
+INSERT INTO `orders` (`date`, `time`, `given_rating`, `status`, `customer_id`, `seller_id`, `name`, `product_id2`, `product_id`, `order_cost`) VALUES
+('2021-12-26', '22:47:50', 4, 'completed', 1, 1, 'Extra Sauce', 4, 4, 8000);
