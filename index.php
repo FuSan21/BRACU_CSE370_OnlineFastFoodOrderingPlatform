@@ -164,7 +164,7 @@ if(isset($_SESSION["cart_item"])){
 				</tr>
 				<?php
 				$total_quantity += $item["quantity"];
-				$total_price += ($item["price"]*$item["quantity"]);
+				$total_price += (($item["price"]+$item["addon-price"])*$item["quantity"]);
 	}
 	if (isset($_SESSION["cupon"]) and $_SESSION["cupon"]["status"] and $_SESSION["cupon"]["min_spend"]>$total_price) {
 		$_SESSION["cupon"]["status"] = false;
@@ -175,7 +175,6 @@ if(isset($_SESSION["cart_item"])){
 		$discounted_price = $total_price;
 	}
 	$_SESSION["order_price"] = $discounted_price;
-	print_r($_SESSION["cart_item"]);
 		?>
 
 <tr>
@@ -208,9 +207,9 @@ if(isset($_SESSION["cart_item"])){
 		<div class="product-item">
 			<form method="post" action="index.php?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
 			<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
+			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-tile-footer">
 			<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-price"><?php echo "৳".$product_array[$key]["price"]; ?></div>
 			<?php if (isset($_SESSION["user-id"])) {?><div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div><?php }?>
 			<div class="product-rating"><div class="Stars" style="--rating: <?php echo($db_handle->product_rating($product_array[$key]['product_id']))  ;?>;"></div></div>
@@ -232,9 +231,9 @@ if(isset($_SESSION["cart_item"])){
 		<div class="product-item">
 			<form method="post" action="index.php?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
 			<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
+			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-tile-footer">
 			<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-price"><?php echo "৳".$product_array[$key]["price"]; ?></div>
 			<?php if (isset($_SESSION["user-id"])) {?><div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div><?php }?>
 			<div class="product-rating"><div class="Stars" style="--rating: <?php echo($db_handle->product_rating($product_array[$key]['product_id']))  ;?>;"></div></div>
@@ -256,9 +255,9 @@ if(isset($_SESSION["cart_item"])){
 		<div class="product-item">
 			<form method="post" action="index.php?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
 			<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
+			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-tile-footer">
 			<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-			<?php if (isset($_SESSION["user-id"])) {?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red"; else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php }?>
 			<div class="product-price"><?php echo "৳".$product_array[$key]["price"]; ?></div>
 			<?php if (isset($_SESSION["user-id"])) {?><div class="cart-action"><input type="text" class="product-quantity" name="quantity" value="1" size="2" /><input type="submit" value="Add to Cart" class="btnAddAction" /></div><?php }?>
 			<div class="product-rating"><div class="Stars" style="--rating: <?php echo($db_handle->product_rating($product_array[$key]['product_id']))  ;?>;"></div></div>

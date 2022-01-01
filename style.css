@@ -175,7 +175,7 @@ img {
   }
 
   .favorite-switch {
-	display: inline-block;
+	display: block;
 	font-size: var(--star-size);
 	font-family: Times;
 	line-height: 1;
@@ -183,6 +183,9 @@ img {
     float: right;
     margin-right: -12px;
 	cursor: pointer;
+	position: relative;
+    bottom: 150px;
+    right: 15px;
   }
 
   .favorite-switch::before {
@@ -191,5 +194,5 @@ img {
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
 	-webkit-text-stroke-width: 2px;
-	-webkit-text-stroke-color: black;
+	-webkit-text-stroke-color: white;
   }
