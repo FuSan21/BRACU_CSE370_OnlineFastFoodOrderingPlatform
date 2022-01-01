@@ -167,7 +167,7 @@ img {
   }
 
   .Stars::before {
-	content: '★★★★★';
+	content: '\2605\2605\2605\2605\2605';
 	letter-spacing: 3px;
 	background: linear-gradient(90deg, var(--star-background) var(--percent), var(--star-color) var(--percent));
 	-webkit-background-clip: text;
@@ -189,7 +189,7 @@ img {
   }
 
   .favorite-switch::before {
-	content: '★';
+	content: '\2605';
 	background: var(--star-color);
 	-webkit-background-clip: text;
 	-webkit-text-fill-color: transparent;
