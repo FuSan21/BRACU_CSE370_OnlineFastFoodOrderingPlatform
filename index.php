@@ -107,7 +107,7 @@ switch($_GET["action"]) {
 <HTML>
 <HEAD>
 <TITLE>Simple PHP Shopping Cart</TITLE>
-<link href="style.css" type="text/css" rel="stylesheet" />
+<link href="./style.css" type="text/css" rel="stylesheet" />
 </HEAD>
 <BODY>
 <button onclick="document.location='index.php'">home</button>
@@ -270,9 +270,11 @@ if(isset($_SESSION["cart_item"])){
 	?>
 </div>
 <script type="text/javascript">
-<?php foreach($_SESSION["cart_item"] as $key=>$value) {?>
+<?php if (isset($_SESSION["cart_item"])) {
+	foreach($_SESSION["cart_item"] as $key=>$value) {?>
     document.getElementById('addon-name-<?php echo $value['product_id'] ?>').value ="<?php echo $value['addon-id']; ?>";
-<?php } ?>
+<?php }
+} ?>
 </script>
 </BODY>
 </HTML>
