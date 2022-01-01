@@ -1,12 +1,12 @@
 CREATE TABLE Customer
 (
-  firstName VARCHAR(30) NOT NULL,
-  lastName VARCHAR(30) NOT NULL,
+  firstName VARCHAR(50) NOT NULL,
+  lastName VARCHAR(50) NOT NULL,
   customer_id INT NOT NULL AUTO_INCREMENT,
-  email VARCHAR(30) NOT NULL,
+  email VARCHAR(50) NOT NULL,
   phn_no INT,
-  passSalt VARCHAR(30) NOT NULL,
-  passHash VARCHAR(30) NOT NULL,
+  passSalt VARCHAR(20) NOT NULL,
+  passHash VARCHAR(20) NOT NULL,
   PRIMARY KEY (customer_id),
   UNIQUE (email),
   UNIQUE (phn_no)
@@ -23,7 +23,7 @@ CREATE TABLE accInfo
 
 CREATE TABLE Seller
 (
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   seller_id INT NOT NULL,
   PRIMARY KEY (seller_id)
 );
@@ -32,7 +32,7 @@ CREATE TABLE Cupons
 (
   amount FLOAT NOT NULL,
   min_spend FLOAT,
-  cupon_id INT NOT NULL,
+  cupon_id VARCHAR(10) NOT NULL,
   seller_id INT NOT NULL,
   customer_id INT,
   PRIMARY KEY (cupon_id),
@@ -44,9 +44,9 @@ CREATE TABLE Product
 (
   price FLOAT NOT NULL,
   product_id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   image VARCHAR(100) NOT NULL,
-  category VARCHAR(30) NOT NULL,
+  category VARCHAR(50) NOT NULL,
   seller_id INT NOT NULL,
   PRIMARY KEY (product_id),
   FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE CASCADE
@@ -65,7 +65,7 @@ CREATE TABLE accInfo_favorites
 
 CREATE TABLE Addon
 (
-  name VARCHAR(30) NOT NULL,
+  name VARCHAR(50) NOT NULL,
   price INT NOT NULL,
   product_id INT NOT NULL,
   seller_id INT NOT NULL,
@@ -83,20 +83,29 @@ CREATE TABLE Orders
   status VARCHAR(10) NOT NULL,
   customer_id INT,
   seller_id INT,
-  name VARCHAR(30),
-  product_id2 INT,
-  product_id INT,
   order_cost FLOAT NOT NULL,
   PRIMARY KEY (order_id),
   FOREIGN KEY (customer_id) REFERENCES Customer(customer_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  FOREIGN KEY (name, product_id2) REFERENCES Addon(name, product_id) ON UPDATE CASCADE ON DELETE SET NULL,
-  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE SET NULL
+  FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE SET NULL
+);
+
+CREATE TABLE Order_ProductsAndAddons
+(
+  order_id INT NOT NULL,
+  product_id INT,
+  name VARCHAR(50),
+  product_id2 INT,
+  quantity INT,
+  PRIMARY KEY (order_id, product_id, name, product_id2),
+  FOREIGN KEY (order_id) REFERENCES Orders(order_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (product_id) REFERENCES Product(product_id) ON UPDATE CASCADE ON DELETE CASCADE,
+  FOREIGN KEY (name, product_id2) REFERENCES Addon(name, product_id) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
 
 INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passSalt`, `passHash`) VALUES
+('default', 'default', 'default@default.com', '0', '0', '0'),
 ('Test', 'Test', 'Test@Test.com', 15748445, 'gfdgd45dfgdf5tdtgfgf', 'sdfgs5trd5dfgdf'),
 ('Testwsd', 'Testdsf', 'Tesdfst@Test.com', 15345445, 'afdgad5dfgdf5tdtgfgf', 'adfgssd5dfgdf'),
 ('safdsaf', 'safsaf', 'asfsa@sdf.sdf', 153454545, 'asfgdhgfhfghjfyudrt', 'sfdyrttqjkhkjfgdf');
@@ -104,33 +113,88 @@ INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passSalt`, 
 INSERT INTO `accinfo` (`customer_level`, `customer_id`) VALUES
 (1, 1),
 (1, 2),
-(2, 3);
+(2, 3),
+(1, 4);
 
 INSERT INTO `seller` (`name`, `seller_id`) VALUES
 ('BRACU Fast Foods', 1);
 
 INSERT INTO `cupons` (`amount`, `min_spend`, `cupon_id`, `seller_id`, `customer_id`) VALUES
-(700, 100, 8942045, 1, 1);
+(100, 500, 'DIS100', 1, 1),
+(200, 1000, 'DIS200', 1, 1);
 
 INSERT INTO `product` (`price`, `name`, `image`, `category`, `seller_id`) VALUES
-(279, '2 pcs Peri Peri Grilled Chicke', 'https://kfcbd.com/storage/products/vQs7vhbBKFqI75GQ1xj4N9Pi3.jpg', 'Chicken', 1),
-(549, '4 pcs Peri Peri Grilled Chicke', 'https://kfcbd.com/storage/products/qWl58hZ82FplIzSgBixeSbW55.jpg', 'Chicken', 1),
+(0, 'default', '/default_product.png', 'default', 1),
+(279, '2 pcs Peri Peri Grilled Chicken', 'https://kfcbd.com/storage/products/vQs7vhbBKFqI75GQ1xj4N9Pi3.jpg', 'Chicken', 1),
+(549, '4 pcs Peri Peri Grilled Chicken', 'https://kfcbd.com/storage/products/qWl58hZ82FplIzSgBixeSbW55.jpg', 'Chicken', 1),
 (649, '5pc Leg Piece Bucket Meal', 'https://kfcbd.com/storage/products/JFGJxoFTj2vBoTlqxh83wRf0s.jpg', 'Chicken', 1),
-(899, '10pc Leg Piece Bucket Meal', 'https://kfcbd.com/storage/products/3Sjbfk9ADbfxx3QUz9Z6o7gGH.jpg', 'Chicken', 1);
+(899, '10pc Leg Piece Bucket Meal', 'https://kfcbd.com/storage/products/3Sjbfk9ADbfxx3QUz9Z6o7gGH.jpg', 'Chicken', 1),
+(349, 'Moroccan Zinger', 'https://kfcbd.com/storage/products/GfuuItfkaKZECnIJGsMALSBkm.jpg', 'Burger', 1),
+(649, 'Moroccan Zinger Duo', 'https://kfcbd.com/storage/products/NKiOOR0tAY3yz0wSJciU4lSRw.jpg', 'Burger', 1),
+(249, 'Hot & Crispy Rice Bowl', 'https://kfcbd.com/storage/products/mvfzUBjuR0LkjE4aB9bbD3Gld.jpg', 'Rice Bowl', 1),
+(249, 'Hot wings Rice Bowl', 'https://kfcbd.com/storage/products/pynydGdq6pzofAHufRMq2MDdg.jpg', 'Rice Bowl', 1);
 
 INSERT INTO `accinfo_favorites` (`favorites`, `customer_level`, `customer_id`) VALUES
 (1, 1, 1),
 (4, 1, 1);
 
 INSERT INTO `addon` (`name`, `price`, `product_id`, `seller_id`) VALUES
-('Extra Mayonnaise', 15, 1, 1),
+('default', 0, 1, 1),
+('None', 0, 1, 1),
+('None', 0, 2, 1),
+('None', 0, 3, 1),
+('None', 0, 4, 1),
+('None', 0, 5, 1),
+('None', 0, 6, 1),
+('None', 0, 7, 1),
+('None', 0, 8, 1),
+('None', 0, 9, 1),
 ('Extra Mayonnaise', 15, 2, 1),
 ('Extra Mayonnaise', 15, 3, 1),
 ('Extra Mayonnaise', 15, 4, 1),
-('Extra Sauce', 10, 1, 1),
+('Extra Mayonnaise', 15, 5, 1),
 ('Extra Sauce', 10, 2, 1),
 ('Extra Sauce', 10, 3, 1),
-('Extra Sauce', 10, 4, 1);
+('Extra Sauce', 10, 4, 1),
+('Extra Sauce', 10, 5, 1);
 
-INSERT INTO `orders` (`date`, `time`, `given_rating`, `status`, `customer_id`, `seller_id`, `name`, `product_id2`, `product_id`, `order_cost`) VALUES
-('2021-12-26', '22:47:50', 4, 'completed', 1, 1, 'Extra Sauce', 4, 4, 8000);
+INSERT INTO `Orders` (`order_id`, `date`, `time`, `given_rating`, `status`, `customer_id`, `seller_id`, `order_cost`) VALUES
+(1, '2021-12-26', '22:47:50', 4, 'completed', 2, 1, 8000),
+(2, '2021-12-30', '19:54:19', 5, 'completed', 1, 1, 3125),
+(3, '2021-12-30', '19:56:55', 4, 'completed', 1, 1, 2197),
+(4, '2021-12-30', '19:58:51', 1, 'completed', 1, 1, 549),
+(5, '2021-12-31', '06:47:31', 3, 'completed', 1, 1, 1896),
+(6, '2021-12-31', '06:47:50', NULL, 'pending', 1, 1, 998),
+(7, '2022-01-01', '09:24:33', NULL, 'pending', 1, 1, 500),
+(8, '2022-01-01', '09:27:15', NULL, 'pending', 1, 1, 0),
+(9, '2022-01-01', '09:28:04', NULL, 'pending', 1, 1, 0),
+(10, '2022-01-01', '09:28:42', NULL, 'pending', 1, 1, 0),
+(11, '2022-01-01', '09:34:16', 5, 'completed', 1, 1, 498);
+
+INSERT INTO `Order_ProductsAndAddons` (`order_id`, `product_id`, `name`, `product_id2`, `quantity`) VALUES
+(1, 2, 'Extra Sauce', 2, 1),
+(1, 3, 'Extra Mayonnaise', 3, 2),
+(1, 4, 'Extra Mayonnaise', 4, 1),
+(2, 2, 'None', 2, 1),
+(2, 4, 'Extra Sauce', 4, 2),
+(2, 5, 'Extra Mayonnaise', 5, 1),
+(2, 7, 'None', 7, 1),
+(3, 4, 'None', 4, 1),
+(3, 5, 'None', 5, 1),
+(3, 7, 'None', 7, 1),
+(4, 3, 'Extra Mayonnaise', 3, 1),
+(5, 3, 'Extra Mayonnaise', 3, 1),
+(5, 6, 'None', 6, 2),
+(5, 7, 'None', 7, 1),
+(6, 6, 'None', 6, 1),
+(6, 7, 'None', 7, 1),
+(7, 8, 'None', 8, 1),
+(7, 9, 'None', 9, 1),
+(8, 8, 'None', 8, 1),
+(8, 9, 'None', 9, 1),
+(9, 8, 'None', 8, 1),
+(9, 9, 'None', 9, 1),
+(10, 8, 'None', 8, 1),
+(10, 9, 'None', 9, 1),
+(11, 8, 'None', 8, 1),
+(11, 9, 'None', 9, 1);
