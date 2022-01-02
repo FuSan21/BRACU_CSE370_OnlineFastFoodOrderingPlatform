@@ -1,12 +1,14 @@
+CREATE DATABASE online_fastfood_ordering_platform;
+USE online_fastfood_ordering_platform;
+
 CREATE TABLE Customer
 (
-  firstName VARCHAR(50) NOT NULL,
-  lastName VARCHAR(50) NOT NULL,
+  firstName VARCHAR(255) NOT NULL,
+  lastName VARCHAR(255) NOT NULL,
   customer_id INT NOT NULL AUTO_INCREMENT,
-  email VARCHAR(50) NOT NULL,
+  email VARCHAR(255) NOT NULL,
   phn_no INT,
-  passSalt VARCHAR(20) NOT NULL,
-  passHash VARCHAR(20) NOT NULL,
+  passHash VARCHAR(255) NOT NULL,
   PRIMARY KEY (customer_id),
   UNIQUE (email),
   UNIQUE (phn_no)
@@ -23,8 +25,9 @@ CREATE TABLE accInfo
 
 CREATE TABLE Seller
 (
-  name VARCHAR(50) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   seller_id INT NOT NULL,
+  passHash VARCHAR(255) NOT NULL,
   PRIMARY KEY (seller_id)
 );
 
@@ -44,9 +47,9 @@ CREATE TABLE Product
 (
   price FLOAT NOT NULL,
   product_id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(50) NOT NULL,
-  image VARCHAR(100) NOT NULL,
-  category VARCHAR(50) NOT NULL,
+  name VARCHAR(255) NOT NULL,
+  image VARCHAR(255) NOT NULL,
+  category VARCHAR(255) NOT NULL,
   seller_id INT NOT NULL,
   PRIMARY KEY (product_id),
   FOREIGN KEY (seller_id) REFERENCES Seller(seller_id) ON UPDATE CASCADE ON DELETE CASCADE
@@ -65,7 +68,7 @@ CREATE TABLE accInfo_favorites
 
 CREATE TABLE Addon
 (
-  name VARCHAR(50) NOT NULL,
+  name VARCHAR(255) NOT NULL,
   price INT NOT NULL,
   product_id INT NOT NULL,
   seller_id INT NOT NULL,
@@ -93,7 +96,7 @@ CREATE TABLE Order_ProductsAndAddons
 (
   order_id INT NOT NULL,
   product_id INT,
-  name VARCHAR(50),
+  name VARCHAR(255),
   product_id2 INT,
   quantity INT,
   PRIMARY KEY (order_id, product_id, name, product_id2),
@@ -104,11 +107,11 @@ CREATE TABLE Order_ProductsAndAddons
 
 
 
-INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passSalt`, `passHash`) VALUES
-('default', 'default', 'default@default.com', '0', '0', '0'),
-('Test', 'Test', 'Test@Test.com', 15748445, 'gfdgd45dfgdf5tdtgfgf', 'sdfgs5trd5dfgdf'),
-('Testwsd', 'Testdsf', 'Tesdfst@Test.com', 15345445, 'afdgad5dfgdf5tdtgfgf', 'adfgssd5dfgdf'),
-('safdsaf', 'safsaf', 'asfsa@sdf.sdf', 153454545, 'asfgdhgfhfghjfyudrt', 'sfdyrttqjkhkjfgdf');
+INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passHash`) VALUES
+('default', 'default', 'default@default.com', '0', '$2y$10$fhN7VXczFZfPgK/q0YstIeP8BOhAS/SY/3a4C5REheU9g9L/ZcA86'),
+('Test', 'Test', 'Test@Test.com', 15748445, 'sdfgs5trd5dfgdf'),
+('Testwsd', 'Testdsf', 'Tesdfst@Test.com', 15345445, 'adfgssd5dfgdf'),
+('safdsaf', 'safsaf', 'asfsa@sdf.sdf', 153454545, 'sfdyrttqjkhkjfgdf');
 
 INSERT INTO `accinfo` (`customer_level`, `customer_id`) VALUES
 (1, 1),
@@ -116,8 +119,8 @@ INSERT INTO `accinfo` (`customer_level`, `customer_id`) VALUES
 (2, 3),
 (1, 4);
 
-INSERT INTO `seller` (`name`, `seller_id`) VALUES
-('BRACU Fast Foods', 1);
+INSERT INTO `seller` (`name`, `seller_id`, `passHash`) VALUES
+('BRACU Fast Foods', 1, '$2y$10$TxRB6MAPZPCLAcC3UXgvheoiZG224czDWCPatUzV1WwBzGMWeut/2');
 
 INSERT INTO `cupons` (`amount`, `min_spend`, `cupon_id`, `seller_id`, `customer_id`) VALUES
 (100, 500, 'DIS100', 1, 1),

@@ -45,5 +45,10 @@ class DBController {
 		if(!empty($resultset))
 			return $resultset["avgRating"];
 	}
+
+	function dropqueryparam() {
+		$base_url = strtok($_SERVER['REQUEST_URI'], '?');
+		header('Location: '.$base_url);
+	}
 }
 ?>
