@@ -38,6 +38,7 @@ switch($_GET["action"]) {
 						unset($_SESSION["order_price"]);
 			}
 		}
+		$db_handle->dropqueryparam();
 	break;
 	case "empty":
 		unset($_SESSION["cart_item"]);
