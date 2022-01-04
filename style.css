@@ -196,3 +196,45 @@ img {
 	-webkit-text-stroke-width: 2px;
 	-webkit-text-stroke-color: white;
   }
+
+
+/* Rahat */
+  .container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	width: 100vw;
+  }
+
+  .forms-container {
+	display: flex;
+	justify-content: space-between;
+	width: 70vw;
+  }
+
+  .acc-header {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+  }
+
+  .account-info {
+	display: flex;
+	justify-content: space-between;  
+  }
+
+  .changepass {
+	display: flex;
+	justify-content: space-between;    
+  }
+
+  hr {
+	margin: 50px;
+	opacity: 0.3;
+  }
+
+  .favfoods {
+	display: flex;
+	justify-content: center;
+  }
