@@ -138,7 +138,7 @@ INSERT INTO `product` (`price`, `name`, `image`, `category`, `seller_id`) VALUES
 (249, 'Hot wings Rice Bowl', 'https://kfcbd.com/storage/products/pynydGdq6pzofAHufRMq2MDdg.jpg', 'Rice Bowl', 1);
 
 INSERT INTO `accinfo_favorites` (`favorites`, `customer_level`, `customer_id`) VALUES
-(1, 1, 1),
+(2, 1, 1),
 (4, 1, 1);
 
 INSERT INTO `addon` (`name`, `price`, `product_id`, `seller_id`) VALUES

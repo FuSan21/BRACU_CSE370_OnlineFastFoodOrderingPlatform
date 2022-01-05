@@ -197,44 +197,26 @@ img {
 	-webkit-text-stroke-color: white;
   }
 
-
-/* Rahat */
-  .container {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
-	align-items: center;
-	width: 100vw;
+  .topnav {
+	overflow: hidden;
+	background-color: #333;
   }
-
-  .forms-container {
-	display: flex;
-	justify-content: space-between;
-	width: 70vw;
+  
+  .topnav a {
+	float: left;
+	color: #f2f2f2;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+	font-size: 17px;
   }
-
-  .acc-header {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-between;
+  
+  .topnav a:hover {
+	background-color: #ddd;
+	color: black;
   }
-
-  .account-info {
-	display: flex;
-	justify-content: space-between;  
-  }
-
-  .changepass {
-	display: flex;
-	justify-content: space-between;    
-  }
-
-  hr {
-	margin: 50px;
-	opacity: 0.3;
-  }
-
-  .favfoods {
-	display: flex;
-	justify-content: center;
+  
+  .topnav a.active {
+	background-color: #04AA6D;
+	color: white;
   }
