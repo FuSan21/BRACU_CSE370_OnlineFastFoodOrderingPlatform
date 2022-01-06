@@ -51,7 +51,7 @@ if (!empty($result)) {
 
 
   // output data of each row
-  foreach($result as $key => $row){
+  foreach ($result as $key => $row) {
     echo "<tr><td>" . $db_handle->orderQueue($row['order_id']) . "</td><td>" . $row['order_id'] . "</td><td>";
     $db_handle->printProducts4orderid($row['order_id']);
     echo "</td><td>" . $row["date"] . "<br>" . $row["time"] . "<td><form method='POST' action='?action=update_order_status&order_id=" . $row['order_id'] . "'><input class='btnUpdate' type='submit' value='Cancel Order'> </form></td>" . "</td></tr>";

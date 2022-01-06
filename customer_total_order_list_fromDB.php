@@ -93,7 +93,7 @@ if (!empty($_GET["action"])) {
   switch ($_GET["action"]) {
     case "update_rating":
       $db_handle->executequery("UPDATE `orders` SET `given_rating` = '" . $_POST['rating'] . "' WHERE `order_id` = '" . $_GET['order_id'] . "'");
-      //$db_handle->dropqueryparam();
+      $db_handle->dropqueryparam();
       break;
   }
 }
@@ -133,24 +133,24 @@ if (!empty($result)) {
 
     <form class='rating' method="POST" action="?action=update_rating&order_id=<?php echo $row['order_id']; ?>">
       <input type='radio' id='<?php echo $row['order_id']; ?>star5' name='rating' value='5' onclick='this.form.submit();' <?php if ($row["given_rating"] == '5') {
-                                                                                              echo "checked";
-                                                                                            } ?> />
+                                                                                                                            echo "checked";
+                                                                                                                          } ?> />
       <label for='<?php echo $row['order_id']; ?>star5' title='text'>5 stars</label>
       <input type='radio' id='<?php echo $row['order_id']; ?>star4' name='rating' value='4' onclick='this.form.submit();' <?php if ($row["given_rating"] == '4') {
-                                                                                              echo "checked";
-                                                                                            } ?> />
+                                                                                                                            echo "checked";
+                                                                                                                          } ?> />
       <label for='<?php echo $row['order_id']; ?>star4' title='text'>4 stars</label>
       <input type='radio' id='<?php echo $row['order_id']; ?>star3' name='rating' value='3' onclick='this.form.submit();' <?php if ($row["given_rating"] == '3') {
-                                                                                              echo "checked";
-                                                                                            } ?> />
+                                                                                                                            echo "checked";
+                                                                                                                          } ?> />
       <label for='<?php echo $row['order_id']; ?>star3' title='text'>3 stars</label>
       <input type='radio' id='<?php echo $row['order_id']; ?>star2' name='rating' value='2' onclick='this.form.submit();' <?php if ($row["given_rating"] == '2') {
-                                                                                              echo "checked";
-                                                                                            } ?> />
+                                                                                                                            echo "checked";
+                                                                                                                          } ?> />
       <label for='<?php echo $row['order_id']; ?>star2' title='text'>2 stars</label>
       <input type='radio' id='<?php echo $row['order_id']; ?>star1' name='rating' value='1' onclick='this.form.submit();' <?php if ($row["given_rating"] == '1') {
-                                                                                              echo "checked";
-                                                                                            } ?> />
+                                                                                                                            echo "checked";
+                                                                                                                          } ?> />
       <label for='<?php echo $row['order_id']; ?>star1' title='text'>1 star</label>
     </form>
     </td>
