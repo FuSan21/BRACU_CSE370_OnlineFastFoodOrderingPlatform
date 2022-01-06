@@ -220,3 +220,31 @@ img {
 	background-color: #04AA6D;
 	color: white;
   }
+
+/*Rahat*/
+
+  .container {
+	background-color: #04AA6D;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+  }
+
+  .forms-container {
+	background-color:mediumpurple;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+	width: 50vw;
+  }
+
+  .account-info, .changepass {
+	display: flex;
+	flex-direction: column;
+	align-items: start;
+  }
+
+  .favfoods {
+	padding-bottom: 10vh;
+  }
