@@ -17,14 +17,14 @@ if (!empty($_GET["action"])) {
 			break;
 		case "login":
 			$_SESSION["user-id"] = '1';
-			$_SESSION["user-level"] = '1';
+			// $_SESSION["user-level"] = '1';
 			$_SESSION["favProducts"] = array();
-			$tempfav = $db_handle->selectQuery("SELECT * FROM accinfo_favorites WHERE customer_id='" . $_SESSION["user-id"] . "' and customer_level='" . $_SESSION["user-level"] . "'");
+			$tempfav = $db_handle->selectQuery("SELECT * FROM accinfo_favorites WHERE customer_id='" . $_SESSION["user-id"] . "'");
 			foreach ($tempfav as $key => $value) {
 				$_SESSION["favProducts"][$value["favorites"]] = $value["favorites"];
 			}
 			$_SESSION["account-info"] = array();
-			$tempaccinfo = $db_handle->selectQuery("SELECT * FROM customer, accinfo WHERE customer.customer_id = accinfo.customer_id and accinfo.customer_id ='" . $_SESSION["user-id"] . "' and customer_level='" . $_SESSION["user-level"] . "'");
+			$tempaccinfo = $db_handle->selectQuery("SELECT * FROM customer, accinfo WHERE customer.customer_id = accinfo.customer_id and accinfo.customer_id ='" . $_SESSION["user-id"] . "'");
 			$_SESSION["account-info"] = $tempaccinfo[0];
 			$db_handle->dropqueryparam();
 			break;
@@ -33,6 +33,7 @@ if (!empty($_GET["action"])) {
 			$_SESSION["account-info"]["firstName"] = $_POST["FirstName"];
 			$_SESSION["account-info"]["lastName"] = $_POST["LastName"];
 			$_SESSION["account-info"]["email"] = $_POST["Email"];
+			$_SESSION["account-info"]["phn_no"] = $_POST["PhoneNo"];
 			$db_handle->dropqueryparam();
 			break;
 		case "changepass":
@@ -103,7 +104,7 @@ if (isset($_SESSION["user-id"])) {
 		<div class="container">
 			<h1>My Profile</h1>
 			<!-- <hr> -->
-			<h2>Account Level: <?php echo $_SESSION["user-level"] ?></h2>
+			<h2>Account Level: <?php echo $_SESSION['account-info']['customer_level'] ?></h2>
 			<div class="forms-container">
 				<div class="account-info">
 					<h2>Account Info</h2>
@@ -152,12 +153,13 @@ if (isset($_SESSION["user-id"])) {
 					foreach ($product_array as $key => $value) {
 				?>
 						<div class="product-item">
-							<form method="post" action="?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
+							<form method="post" action="profile.php?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
 								<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
 								<?php if (isset($_SESSION["user-id"])) { ?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red";
 																															else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php } ?>
 								<div class="product-tile-footer">
 									<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
+									<div class="product-price"><?php echo "৳" . $product_array[$key]["price"]; ?></div>
 								</div>
 							</form>
 						</div>
