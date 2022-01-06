@@ -140,6 +140,7 @@ if (isset($_SESSION["user-id"])) {
 				<h2>Favorite Foods</h2>
 				<hr>
 				<?php
+				if (!Empty($_SESSION["favProducts"])) {
 				$favstring = "(";
 				foreach ($_SESSION["favProducts"] as $favkey => $fav) {
 					$favstring = $favstring . "'" . $fav . "', ";
@@ -157,15 +158,15 @@ if (isset($_SESSION["user-id"])) {
 																															else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php } ?>
 								<div class="product-tile-footer">
 									<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-									<div class="product-price"><?php echo "৳" . $product_array[$key]["price"]; ?></div>
+									<!-- <div class="product-price"><?php echo "৳" . $product_array[$key]["price"]; ?></div> -->
 								</div>
 							</form>
 						</div>
 				<?php
-					}
-				}
+					}} 
+				} else {echo "No Favorite Foods";}
 				?>
-			</div>
+			</div> 
 		</div>
 	</body>
 
