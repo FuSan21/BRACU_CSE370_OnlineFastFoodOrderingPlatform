@@ -132,7 +132,7 @@ if (!empty($_GET["action"])) {
 		<a href="./seller-dashboard.php">Seller Dashboard</a>
 	</div>
 	<?php if (isset($_SESSION["user-id"])) {
-		$db_handle->findIndexTable("orders"); ?>
+	?>
 		<div id="shopping-cart">
 			<div class="txt-heading">Shopping Cart</div>
 
@@ -157,7 +157,6 @@ if (!empty($_GET["action"])) {
 						<?php
 						foreach ($_SESSION["cart_item"] as $key => $value) {
 							if (isset($_POST["addon-name-" . $key])) {
-								$addons = $db_handle->selectQuery("SELECT * FROM addon WHERE product_id='" . $key . "'");
 								$_SESSION["cart_item"][$key]["addon-id"] = $_POST["addon-name-" . $key];
 							}
 						}

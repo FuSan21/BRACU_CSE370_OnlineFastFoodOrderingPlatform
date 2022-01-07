@@ -110,7 +110,8 @@ CREATE TABLE Order_ProductsAndAddons
 INSERT INTO `customer` (`firstName`, `lastName`, `email`, `phn_no`, `passHash`) VALUES
 ('default', 'default', 'default@default.com', '0', '$2y$10$fhN7VXczFZfPgK/q0YstIeP8BOhAS/SY/3a4C5REheU9g9L/ZcA86'),
 ('Test', 'Test', 'Test@Test.com', 15748445, 'sdfgs5trd5dfgdf'),
-('Testwsd', 'Testdsf', 'Tesdfst@Test.com', 15345445, 'adfgssd5dfgdf'),
+('Testwsd', 'Testdsf', 'Tesd234fst@Test.com', 15675445, 'adfgssd5dfgdf'),
+('Sad', 'Ibn Mahabub', 'Tesdfst@Test.com', 15345445, 'testpass'),
 ('safdsaf', 'safsaf', 'asfsa@sdf.sdf', 153454545, 'sfdyrttqjkhkjfgdf');
 
 INSERT INTO `accinfo` (`customer_level`, `customer_id`) VALUES
@@ -156,10 +157,14 @@ INSERT INTO `addon` (`name`, `price`, `product_id`, `seller_id`) VALUES
 ('Extra Mayonnaise', 15, 3, 1),
 ('Extra Mayonnaise', 15, 4, 1),
 ('Extra Mayonnaise', 15, 5, 1),
+('Extra Mayonnaise', 15, 6, 1),
+('Extra Mayonnaise', 15, 7, 1),
 ('Extra Sauce', 10, 2, 1),
 ('Extra Sauce', 10, 3, 1),
 ('Extra Sauce', 10, 4, 1),
-('Extra Sauce', 10, 5, 1);
+('Extra Sauce', 10, 5, 1),
+('Extra Sauce', 10, 6, 1),
+('Extra Sauce', 10, 7, 1);
 
 INSERT INTO `Orders` (`order_id`, `date`, `time`, `given_rating`, `status`, `customer_id`, `seller_id`, `order_cost`) VALUES
 (1, '2021-12-26', '22:47:50', 4, 'completed', 2, 1, 8000),

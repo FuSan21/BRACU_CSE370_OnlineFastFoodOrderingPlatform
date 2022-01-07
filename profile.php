@@ -33,6 +33,7 @@ if (!empty($_GET["action"])) {
 			$_SESSION["account-info"]["firstName"] = $_POST["FirstName"];
 			$_SESSION["account-info"]["lastName"] = $_POST["LastName"];
 			$_SESSION["account-info"]["email"] = $_POST["Email"];
+			$_SESSION["account-info"]["phn_no"] = $_POST["PhoneNo"];
 			$db_handle->dropqueryparam();
 			break;
 		case "changepass":
@@ -140,32 +141,35 @@ if (isset($_SESSION["user-id"])) {
 				<h2>Favorite Foods</h2>
 				<hr>
 				<?php
-				if (!Empty($_SESSION["favProducts"])) {
-				$favstring = "(";
-				foreach ($_SESSION["favProducts"] as $favkey => $fav) {
-					$favstring = $favstring . "'" . $fav . "', ";
-				}
-				$favstring = rtrim($favstring, ", ");
-				$favstring = $favstring . ")";
-				$product_array = $db_handle->selectQuery("SELECT * FROM product WHERE product_id in " . $favstring . " ORDER BY product_id ASC");
-				if (!empty($product_array)) {
-					foreach ($product_array as $key => $value) {
+				if (!empty($_SESSION["favProducts"])) {
+					$favstring = "(";
+					foreach ($_SESSION["favProducts"] as $favkey => $fav) {
+						$favstring = $favstring . "'" . $fav . "', ";
+					}
+					$favstring = rtrim($favstring, ", ");
+					$favstring = $favstring . ")";
+					$product_array = $db_handle->selectQuery("SELECT * FROM product WHERE product_id in " . $favstring . " ORDER BY product_id ASC");
+					if (!empty($product_array)) {
+						foreach ($product_array as $key => $value) {
 				?>
-						<div class="product-item">
-							<form method="post" action="?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
-								<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
-								<?php if (isset($_SESSION["user-id"])) { ?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red";
-																															else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php } ?>
-								<div class="product-tile-footer">
-									<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
-								</div>
-							</form>
-						</div>
+							<div class="product-item">
+								<form method="post" action="?action=add&product_id=<?php echo $product_array[$key]["product_id"]; ?>">
+									<div class="product-image"><img src="<?php echo $product_array[$key]["image"]; ?>"></div>
+									<?php if (isset($_SESSION["user-id"])) { ?><div class="favorite-switch" style="--star-color:<?php if (in_array($product_array[$key]['product_id'], $_SESSION["favProducts"])) echo "red";
+																																else echo "black" ?>;" onclick="document.location='index.php?action=switch-favorite&product_id=<?php echo $product_array[$key]['product_id']; ?>'"></div><?php } ?>
+									<div class="product-tile-footer">
+										<div class="product-title"><?php echo $product_array[$key]["name"]; ?></div>
+									</div>
+								</form>
+							</div>
 				<?php
-					}} 
-				} else {echo "No Favorite Foods";}
+						}
+					}
+				} else {
+					echo "No Favorite Foods";
+				}
 				?>
-			</div> 
+			</div>
 		</div>
 	</body>
 
